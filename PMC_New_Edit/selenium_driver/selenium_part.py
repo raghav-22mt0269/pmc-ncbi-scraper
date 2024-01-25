@@ -14,9 +14,9 @@ import subprocess
 import undetected_chromedriver as browser
 import os, logging, random
 
-BROWSER_PATH = '\Includes\Application\chrome.exe'
+BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 class NCBI_Crawler(browser.Chrome):
-    def __init__(self, options: Options = None, service: Service = None, keep_alive = True):
+    def __init__(self, options: Options = None, service: Service = None):
         
         
         #ua = UserAgent()
@@ -46,23 +46,20 @@ class NCBI_Crawler(browser.Chrome):
         
         
                
-        super(NCBI_Crawler, self).__init__(options = self.options,browser_executable_path=os.getcwd()+BROWSER_PATH,
-                                            suppress_welcome=True,user_multi_procs=True,debug=True,keep_alive=False,
-                                            version_main=114,log_level=2)
+        super(NCBI_Crawler, self).__init__(options = self.options,browser_executable_path=BROWSER_PATH,
+                                            suppress_welcome=True,user_multi_procs=True,debug=True,
+                                           log_level=2)
         self.maximize_window()
         logging.basicConfig(filename=f'Selenium_part_.log', filemode='w', level=logging.DEBUG)
         #print(f" using logger it prints ==> {logging.Logger.findCaller(self)}")
         #logging.Logger.removeHandler(hdlr=self)
         #logging.getLogger().propagate = False
     def __exit__(self,exc_type , exc_val, exc_to):
-        if not self.keep_alive:
-            #print(f" Check for processes still running ? {self.service.assert_process_still_running()}")
-            self.stop_client()
-            self.service._terminate_process()
-          
-            time.sleep(2)
+          self.stop_client()
+          self.service._terminate_process()
+          time.sleep(2)
             #self.quit() 
-            pass
+          pass
     def ChangeVPN(self):
         countries = ["Georgia","Serbia","Moldova",'"North Macedonia"',"Jersey","Monaco","Slovakia",
                      "Slovenia","Croatia","Albania","Cyprus","Liechtenstein","Malta","Ukraine",
